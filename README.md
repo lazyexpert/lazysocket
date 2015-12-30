@@ -12,7 +12,7 @@ I see this module pretty much like rest api, but I will use webSockets to achiev
 
 #### Front:
 
-Include the front-end lib:
+Include the front-end lib.The lib is placed in the /lib folder:
 
 ``` html
 <script src="socket-events.js" type="text/javascript"></script>
