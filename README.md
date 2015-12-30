@@ -21,13 +21,13 @@ Init the socket. You may pass port as a parameter. The default port used is 8081
 
 Send your data, and set callback, if needed:
 
-`socket.send('greet', data, function(data) {
+<code>socket.send('greet', data, function(data) {
 	console.log(data);
-})`
+})</code>
 
-`socket.send('greet', null, function(data){
+<code>socket.send('greet', null, function(data){
 	// You should pass null instead of data, if you're going just to notify back
-})`
+})</code>
 
 Or simply send event to server, without any data or callback. Just event name.
 
@@ -41,18 +41,22 @@ Include this module by:
 
 Init socketServer.
 
-`const socket = require('socket-event');
+<code>const socket = require('socket-event');
+
 socket.init(function() {
+	
 	// Any additional logic can be placed here
-});`
+
+});</code>
 
 Set handlers:
-`socket.on('greet', function(data, callback) {
+
+<code>socket.on('greet', function(data, callback) {
 	console.log('greet recieved');
 	console.log(data);
 	
 	// Firing callback at the end is important for your front end to know when to fire callback
 	callback();
-})`
+})</code>
 
 
