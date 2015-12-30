@@ -1,0 +1,19 @@
+{
+  "name": "socket-event",
+  "version": "1.0.1",
+  "description": "## Scratch of the documentation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lazyexpert/socket-event.git"
+  },
+  "author": "Lazyexpert",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lazyexpert/socket-event/issues"
+  },
+  "homepage": "https://github.com/lazyexpert/socket-event#readme"
+}
