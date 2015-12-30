@@ -6,7 +6,7 @@ I see this module pretty much like rest api, but I will use webSockets to achiev
 
 ### Dependencies: 
 
-- npm module 'ws' at backend
+- npm module [ws] (https://www.npmjs.com/package/ws) at backend
 
 ### Usage:
 
@@ -14,48 +14,63 @@ I see this module pretty much like rest api, but I will use webSockets to achiev
 
 Include the front-end lib:
 
-`<script src="socket-events.js" type="text/javascript"></script>`
+``` html
+<script src="socket-events.js" type="text/javascript"></script>
+```
 
 Init the socket. You may pass port as a parameter. The default port used is 8081.
-`var socket = new SocketEvent(optionalPort)`
+
+``` javascript
+var socket = new SocketEvent(optionalPort)
+```
 
 Send your data, and set callback, if needed:
 
-<code>socket.send('greet', data, function(data) {
-	console.log(data);
-})</code>
+``` javascript
+socket.send('greet', data, function(data) {
+  console.log(data)
+})
+```
 
-<code>socket.send('greet', null, function(data){
-	// You should pass null instead of data, if you're going just to notify back
-})</code>
+You should pass null instead of data, if you dont have any:
+``` javascript
+socket.send('greet', null, function(data){
+  console.log(data)
+})
+```
 
 Or simply send event to server, without any data or callback. Just event name.
-
-`socket.send('greet')
+``` javascript
+socket.send('greet')
+```
 
 #### Back:
 
 Include this module by:
 
-`npm install --save socket-event`
+``` javascript
+npm install --save socket-event
+```
 
-Init socketServer.
-
-<code>const socket = require('socket-event');
+Init socket server:
+``` javascript
+const socket = require('socket-event')
 
 socket.init(function() {
-	
-	// Any additional logic can be placed here
-
-});</code>
+  // Any additional logic can be placed here
+  // Actually this is on 'connection' event, that will be fired on connection with each socket
+})
+```
 
 Set handlers:
 
-<code>socket.on('greet', function(data, callback) {
-	console.log('greet recieved');
-	console.log(data);
-	// Firing callback at the end is important for your front end to know when to fire callback
-	callback();
-})</code>
-
+``` javascript
+socket.on('greet', function(data, callback) {
+  console.log('greet recieved');
+  console.log(data);
+  
+  // Firing callback at the end is important for your front end to know when to fire callback
+  callback();
+})
+```
 
