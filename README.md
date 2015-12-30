@@ -54,7 +54,6 @@ Set handlers:
 <code>socket.on('greet', function(data, callback) {
 	console.log('greet recieved');
 	console.log(data);
-	
 	// Firing callback at the end is important for your front end to know when to fire callback
 	callback();
 })</code>
