@@ -53,6 +53,6 @@ Set handlers:
 	
 	// Firing callback at the end is important for your front end to know when to fire callback
 	callback();
-})
+})`
 
 
