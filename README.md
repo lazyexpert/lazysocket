@@ -56,7 +56,8 @@ Init socket server:
 ``` javascript
 const socket = require('socket-event')
 
-socket.init(function() {
+socket.init(port, function() {
+  // Port is optional. Default is 8081.
   // Any additional logic can be placed here
   // Actually this is on 'connection' event, that will be fired on connection with each socket
 })
@@ -72,5 +73,10 @@ socket.on('greet', function(data, callback) {
   // Firing callback at the end is important for your front end to know when to fire callback
   callback();
 })
+```
+
+You might need to delete handler dynamically. Use 'remove' method:
+``` javascript
+socket.remove('greet');
 ```
 
