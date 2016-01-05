@@ -14,7 +14,7 @@ The connection goes with websockets and we have ability to set callback on front
 Also added one method "notify". It should serve to send any kind of notifications between front and end. 
 You can build client => server event system on top of this "notify" method.
 
-Actually all these methods work identically. The idea of separating them is to make code better. The logic you build aroung them is your deal.
+Actually all these methods work identically. The idea of separating them is to make code better. The logic you build around them is your deal.
 
 ### Dependencies: 
 
@@ -72,8 +72,8 @@ socket.notify('user-afk', data);
 The model of interaction looks like: 
 Event(route, url) - Handler - Callback
 
-The handler is actually callback two. Just not to get confused, we will call it handler. 
-So, handler is actually the handler of the event on back-end.
+The handler is actually callback too. Just not to get confused, we will call it handler. 
+So, handler is actually the event handler on back-end, same as common router handler.
 Firing callback - is sending data/notification to front-end.
 
 Include this module by:
@@ -96,7 +96,7 @@ s.init(port, function() {
 Set handlers. Callback has two "node-way" arguments: error, data.
 
 ``` javascript
-socket.on.get('messages', function(data, callback) {
+s.get('messages', function(data, callback) {
   let msg = JSON.parse(data);  
   
   // connect to db and get data. example code
@@ -108,25 +108,25 @@ socket.on.get('messages', function(data, callback) {
   }   
 });
 
-socket.on.post('message', function(data, callback) {
+s.post('message', function(data, callback) {
   // pretty much the same
   
  // dont forget to fire callback(err,data) at the end
 });
 
-// same for socket.on.put, socket.on.delete
+// same for s.put, s.delete
 
-socket.on.notify('any-event', function(data, callback) {
+s.notify('any-event', function(data, callback) {
   // You can build here any logic outside restapi
 });
 ```
 
 You might need to delete handler dynamically. Use 'remove' method:
 ``` javascript
-socket.remove.get('greet');
-socket.remove.post('greet');
-socket.remove.put('greet');
-socket.remove.delete('greet');
-socket.remove.notify('greet');
+s.remove('get', 'greet');
+s.remove('post', 'greet');
+s.remove('put', 'greet');
+s.remove('delete', 'greet');
+s.remove('notify', 'greet');
 ```
 
