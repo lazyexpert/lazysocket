@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Socket-event demo</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+  </head>
+
+  <body>
+  <div id="container">
+
+    <div id="get">
+      <button id="getButton">Get messages</button>
+    </div>
+
+    <div id="post">
+      <input type="text" id="postText"></input><br />
+
+      <button id="postButton">Post message</button>
+    </div>
+
+    <div id="put">
+      <input type="text" id="putText"></input><br />
+
+      <button id="putButton">Put message</button>
+    </div>
+
+    <div id="delete">
+      <input type="text" id="deleteText"></input><br />
+
+      <button id="deleteButton">Delete message</button>
+    </div>
+
+    <div id="notify">
+      <input type="text" id="notifyText"></input><br />
+
+      <button id="notifyButton">Notify</button>
+    </div>
+
+    <div id="error">
+      <button id="errorButton">Error message</button>
+    </div>
+  </div>
+
+  <!-- Include the front-end library -->
+  <script src="socket-event.js" type="text/javascript"></script>
+
+  <!-- Include my custom js file -->
+  <script src="custom.js" type="text/javascript"></script>
+
+  </body>
+</html>

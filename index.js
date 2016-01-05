@@ -1,3 +1,5 @@
+"use strict";
+
 /* Back-end part */
 const ws = require('ws');
 
@@ -11,7 +13,7 @@ const ws = require('ws');
     callback - true/false (to notify whether it's callback)
 */
 
-module.exports = {
+var m = module.exports = {
   handlers : {
     get : {},
     post : {},
@@ -23,79 +25,59 @@ module.exports = {
   init : function(port, callback) {
     let p = port || 8081;
 
-    this.server = new ws.Server({port: p});
+    m.server = new ws.Server({port: p});
 
-    this.server.on('connection', function(ws) {
+    m.server.on('connection', function(ws) {
       callback(ws);
 
-      this.server.on('message', function(data) {
+      ws.on('message', function(data) {
         let msg = JSON.parse(data);
 
         // Pass message to handle function
-        if( typeof this.handlers[name] !== "undefined" ) {
-          this.handle(msg.type, msg.name, msg.data, function(error, data) {
+        if( typeof m.handlers[msg.type][msg.name] !== "undefined" ) {
+          m.handle(msg.type, msg.name, msg.data, function(error, outerData) {
             ws.send(JSON.stringify({
               id : msg.id,
               type : msg.type,
-              data : data,
+              data : outerData,
               name : msg.name,
               error : error,
               callback : true
             }));
           });
         } else {
-          this.throwErr( ws, "Sorry, no back-end handler found.");
+          m.throwErr( ws, "Sorry, no back-end handler found.");
         }
       });
     });
   },
 
-  handle : function(type, name, data, callback) {  
-    this.handlers[type][name](data, callback);
+  handle : function(type, name, data, callback) {
+    m.handlers[type][name](data, callback);
   },
 
-  on : {
-    get : function(name, callback) {
-      this.handlers.get[name] = callback;
-    },
-    post : function(name, callback) {
-      this.handlers.post[name] = callback;
-    },
-    put : function(name, callback) {
-      this.handlers.put[name] = callback;
-    },
-    delete : function(name, callback) {
-      this.handlers.delete[name] = callback;
-    },
-    notify : function(name, callback) {
-      this.handlers.notify[name] = callback;
-    }
+  get : function(name, callback) {
+    m.handlers.get[name] = callback;
+  },
+  post : function(name, callback) {
+    m.handlers.post[name] = callback;
+  },
+  put : function(name, callback) {
+    m.handlers.put[name] = callback;
+  },
+  delete : function(name, callback) {
+    m.handlers.delete[name] = callback;
+  },
+  notify : function(name, callback) {
+    m.handlers.notify[name] = callback;
   },
 
-  remove : {
-    get : function(name)  {
-      if( typeof this.handlers.get[name] !== 'undefined' )
-        delete this.handlers.get[name];
-    },
-    post : function(name)  {
-      if( typeof this.handlers.post[name] !== 'undefined' )
-        delete this.handlers.post[name];
-    },
-    put : function(name)  {
-      if( typeof this.handlers.put[name] !== 'undefined' )
-        delete this.handlers.put[name];
-    },
-    delete : function(name)  {
-      if( typeof this.handlers.delete[name] !== 'undefined' )
-        delete this.handlers.delete[name];
-    },
-    notify : function(name) {
-      if( typeof this.handlers.notify[name] !== 'undefined' )
-        delete this.handlers.notify[name];
-    }
+  remove : function(method, name) {
+    if( typeof m.handlers[method][name] !== 'undefined' )
+      delete m.handlers[method][name];
   },
 
-  throwErr : function(ws, data, msg) {
+  throwErr : function(ws, data, message) {
     let msg = JSON.parse(data);
 
     ws.send(JSON.stringify({
@@ -103,7 +85,7 @@ module.exports = {
         type: msg.type,
         name: msg.name,
         data : null,
-        error: msg
+        error: message
     }));
   }
 };

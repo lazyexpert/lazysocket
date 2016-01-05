@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/lazyexpert/socket-event/issues"
   },
-  "homepage": "https://github.com/lazyexpert/socket-event#readme"
+  "homepage": "https://github.com/lazyexpert/socket-event#readme",
+  "dependencies": {
+    "ws": "^1.0.1"
+  }
 }
