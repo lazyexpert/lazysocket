@@ -4,12 +4,21 @@ const ws = require('ws');
 /*
   Message structure (JSON.stringified):
     id - identificator
+    type - method type (get, put, delete, post, notify)
     name - event name
     data - data object
+    error - null or error message
+    callback - true/false (to notify whether it's callback)
 */
 
 module.exports = {
-  handlers : {},
+  handlers : {
+    get : {},
+    post : {},
+    put : {},
+    delete : {},
+    notify : {}
+  },
 
   init : function(port, callback) {
     let p = port || 8081;
@@ -22,40 +31,79 @@ module.exports = {
       this.server.on('message', function(data) {
         let msg = JSON.parse(data);
 
-        // create callback function
-        let callback = function() {
-          let newMsg = {
-            id : msg.id,
-            name : 'callback'
-          };
-
-          ws.send(JSON.stringify(newMsg));
-        };
-
         // Pass message to handle function
         if( typeof this.handlers[name] !== "undefined" ) {
-          this.handle(msg.name, msg.data, callback);
+          this.handle(msg.type, msg.name, msg.data, function(error, data) {
+            ws.send(JSON.stringify({
+              id : msg.id,
+              type : msg.type,
+              data : data,
+              name : msg.name,
+              error : error,
+              callback : true
+            }));
+          });
         } else {
-          this.throwErr( ws, "Sorry, no handler for this message");
+          this.throwErr( ws, "Sorry, no back-end handler found.");
         }
       });
     });
   },
 
-  handle : function(name, data, callback) {
-      this.handlers[name](data, callback);
+  handle : function(type, name, data, callback) {  
+    this.handlers[type][name](data, callback);
   },
 
-  on : function(name, callback) {
-    this.handlers[name] = callback;
+  on : {
+    get : function(name, callback) {
+      this.handlers.get[name] = callback;
+    },
+    post : function(name, callback) {
+      this.handlers.post[name] = callback;
+    },
+    put : function(name, callback) {
+      this.handlers.put[name] = callback;
+    },
+    delete : function(name, callback) {
+      this.handlers.delete[name] = callback;
+    },
+    notify : function(name, callback) {
+      this.handlers.notify[name] = callback;
+    }
   },
 
-  remove : function(name)  {
-    if( typeof this.handlers[name] !== 'undefined' )
-      delete this.handlers[name];
+  remove : {
+    get : function(name)  {
+      if( typeof this.handlers.get[name] !== 'undefined' )
+        delete this.handlers.get[name];
+    },
+    post : function(name)  {
+      if( typeof this.handlers.post[name] !== 'undefined' )
+        delete this.handlers.post[name];
+    },
+    put : function(name)  {
+      if( typeof this.handlers.put[name] !== 'undefined' )
+        delete this.handlers.put[name];
+    },
+    delete : function(name)  {
+      if( typeof this.handlers.delete[name] !== 'undefined' )
+        delete this.handlers.delete[name];
+    },
+    notify : function(name) {
+      if( typeof this.handlers.notify[name] !== 'undefined' )
+        delete this.handlers.notify[name];
+    }
   },
 
-  throwErr : function(ws, msg) {
-    ws.send(msg);
+  throwErr : function(ws, data, msg) {
+    let msg = JSON.parse(data);
+
+    ws.send(JSON.stringify({
+        id: msg.id,
+        type: msg.type,
+        name: msg.name,
+        data : null,
+        error: msg
+    }));
   }
 };
