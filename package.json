@@ -1,6 +1,6 @@
 {
   "name": "socket-event",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "## Scratch of the documentation",
   "main": "index.js",
   "scripts": {
