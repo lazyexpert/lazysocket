@@ -96,7 +96,7 @@ s.init(port, function() {
 Set handlers. Callback has two "node-way" arguments: error, data.
 
 ``` javascript
-s.on.get('messages', function(data, callback) {
+s.get('messages', function(data, callback) {
   let msg = JSON.parse(data);  
   
   // connect to db and get data. example code
@@ -108,25 +108,25 @@ s.on.get('messages', function(data, callback) {
   }   
 });
 
-s.on.post('message', function(data, callback) {
+s.post('message', function(data, callback) {
   // pretty much the same
   
  // dont forget to fire callback(err,data) at the end
 });
 
-// same for s.on.put, s.on.delete
+// same for s.put, s.delete
 
-s.on.notify('any-event', function(data, callback) {
+s.notify('any-event', function(data, callback) {
   // You can build here any logic outside restapi
 });
 ```
 
 You might need to delete handler dynamically. Use 'remove' method:
 ``` javascript
-s.remove.get('greet');
-s.remove.post('greet');
-s.remove.put('greet');
-s.remove.delete('greet');
-s.remove.notify('greet');
+s.remove('get', 'greet');
+s.remove('post', 'greet');
+s.remove('put', 'greet');
+s.remove('delete', 'greet');
+s.remove('notify', 'greet');
 ```
 
