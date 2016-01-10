@@ -6,7 +6,7 @@ Advantages of this type of communication are obvious, but still, before this lib
 # About
 WebSoket technology is awesome. But it comes a little hard to start using it. Also you have some problems building big apps with websockets.
 
-We still have imitation of methods (get, post, put, delete), added new one "notify".
+In this library we still have imitation of methods (get, post, put, delete), added new one "notify".
 The connection goes with websockets and we have ability to set callback on front and handler on back.
 Also added one method "notify". It should serve to send any kind of notifications between front and end.
 You can build client => server event system on top of this "notify" method.
