@@ -1,6 +1,10 @@
 document.addEventListener('DOMContentLoaded', function(e) {
   var socket  = new SocketEvent(8081);
 
+  socket.on('greet', function() {
+    alert("server greeting ;)");
+  });
+
   /* Cache DOM elements */
   var getButton = document.getElementById('getButton');
   var postButton = document.getElementById('postButton');
@@ -8,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
   var deleteButton = document.getElementById('deleteButton');
   var notifyButton = document.getElementById('notifyButton');
   var errorButton = document.getElementById('errorButton');
+  var serverNotifyButton = document.getElementById('serverNotifyButton');
 
   var postMessage = document.getElementById('postText');
   var putMessage = document.getElementById('putText');
@@ -64,6 +69,10 @@ document.addEventListener('DOMContentLoaded', function(e) {
       console.log('Error check callback');
       console.log(data);
     });
+  }.bind(this));
+
+  serverNotifyButton.addEventListener('click', function(e) {
+    socket.notify('get-server-event');
   }.bind(this));
 
 });

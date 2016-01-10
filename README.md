@@ -1,24 +1,17 @@
 # socket-event
+This library is the cover around the "ws" module. Providing some comfort in the common use.
+It is client server communication mean using WebSocket protocol.
+Advantages of this type of communication are obvious, but still, before this library, it was a little messy using websockets.
 
-## Scratch of the documentation
-
+# About
 WebSoket technology is awesome. But it comes a little hard to start using it. Also you have some problems building big apps with websockets.
-So, this module, I hope, will make this issues easier. And more people will start using websockets in their projects.
 
-I am trying to use pretty same concepts adding a little new features. And sure one great difference is that this at low level works with websokets.
-
-
-So, briefly: 
-We still have imitation of methods (get, post, put, delete), added new one "notify". 
-The connection goes with websockets and we have ability to set callback on front and handler on back. 
-Also added one method "notify". It should serve to send any kind of notifications between front and end. 
+We still have imitation of methods (get, post, put, delete), added new one "notify".
+The connection goes with websockets and we have ability to set callback on front and handler on back.
+Also added one method "notify". It should serve to send any kind of notifications between front and end.
 You can build client => server event system on top of this "notify" method.
 
-Actually all these methods work identically. The idea of separating them is to make code better. The logic you build around them is your deal.
-
-### Dependencies: 
-
-- npm module [ws] (https://www.npmjs.com/package/ws) at backend
+Actually all these methods work identically. The idea of separating them is to make code better and cleaner. The logic you build around them is your deal.
 
 ### Usage:
 
@@ -36,10 +29,10 @@ Init the socket. You may pass port as a parameter. The default port used is 8081
 var socket = new SocketEvent(optionalPort)
 ```
 
-Using send methods(get, post, put, delete, notify) has same interface. 
+Using send methods(get, post, put, delete, notify) has same interface.
 
 ``` javascript
-socket[methodName](eventName, data, callback);
+socket[methodName](eventName, data, callback)
 ```
 
 All arguments are optional instead of eventName.
@@ -47,32 +40,56 @@ All arguments are optional instead of eventName.
 ``` javascript
 socket.get('messages', null, function(data) {
   console.log(data)
-});
+})
 
-socket.post('message', data);
+socket.post('message', data)
 
 socket.put('message', data, function(data) {
   console.log(data);
-});
+})
 
-socket.delete('message', data);
+socket.delete('message', data)
 
-// Using notify for small messages look good idea
+// Using notify for small messages looks good idea
 
-socket.notify('state-change', data);
+socket.notify('state-change', data)
 
-socket.notify('game-over', data);
+socket.notify('game-over', data)
 
-socket.notify('user-afk', data);
+socket.notify('user-afk', data)
 ```
 
+Server can send notifications too. To make it easier, the server sends only the name of the event.
+Example:
+```javascript
+socket.on('map-refresh', function() {
+  // Server notifies about map refresh
+  // You send request for the new map
+  socket.get('map', null, function(data) {
+    // Print new map
+    console.log(data);
+  })
+})
+```
+
+Or you can simply react on the certain events:
+```javascript
+socket.on('server-off', function() {
+  alert("Server will be shutdown in 2 minutes. Please, save your work.")
+})
+```
+
+You also may delete handlers of the server events dynamically using method "remove":
+```javascript
+socket.remove('server-off')
+```
 
 #### Back:
 
-The model of interaction looks like: 
+The model of interaction looks like:
 Event(route, url) - Handler - Callback
 
-The handler is actually callback too. Just not to get confused, we will call it handler. 
+The handler is actually callback too. Just not to get confused, we will call it handler.
 So, handler is actually the event handler on back-end, same as common router handler.
 Firing callback - is sending data/notification to front-end.
 
@@ -98,19 +115,19 @@ Set handlers. Callback has two "node-way" arguments: error, data.
 ``` javascript
 s.get('messages', function(data, callback) {
   let msg = JSON.parse(data);  
-  
+
   // connect to db and get data. example code
   let sql = "SELECT * FROM `messages` WHERE id = " + msg.data.id;
-  someDbDriver.query(sql, function(err, data) { 
+  someDbDriver.query(sql, function(err, data) {
     if(err) callback(err);
-    
+
     else callback(null, data);
   }   
 });
 
 s.post('message', function(data, callback) {
   // pretty much the same
-  
+
  // dont forget to fire callback(err,data) at the end
 });
 
@@ -130,3 +147,10 @@ s.remove('delete', 'greet');
 s.remove('notify', 'greet');
 ```
 
+The server to client communication is done through the "notifyAll" method. This code notifies all connected clients about event.
+``` javascript
+s.notifyAll('map-refresh')
+```
+
+### Note
+Dont forget to delete the demo folder in production.

@@ -79,10 +79,16 @@ s.delete('message', function(data, callback) {
   });
 });
 
+/* Test error handling */
 s.get('error', function(data, callback) {
-  console.log("Recieved new error-check message.");  
+  console.log("Recieved new error-check message.");
 
   callback("Gotcha! Error-handling check.");
 });
 
-/* Test error handling */
+/* Test messaging server => client */
+s.notify('get-server-event', function(data, callback) {
+  console.log("Firing notifyAll. Event 'greet'");
+  
+  s.notifyAll('greet');
+})

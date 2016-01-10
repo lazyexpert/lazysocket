@@ -21,7 +21,7 @@ var m = module.exports = {
     delete : {},
     notify : {}
   },
-
+  clients : {},
   init : function(port, callback) {
     let p = port || 8081;
 
@@ -29,6 +29,9 @@ var m = module.exports = {
 
     m.server.on('connection', function(ws) {
       callback(ws);
+
+      var id = Math.random();
+      m.clients[id] = ws;
 
       ws.on('message', function(data) {
         let msg = JSON.parse(data);
@@ -49,6 +52,12 @@ var m = module.exports = {
           m.throwErr( ws, "Sorry, no back-end handler found.");
         }
       });
+
+
+      ws.on('close', function() {
+        delete m.clients[id];
+      });
+
     });
   },
 
@@ -72,6 +81,20 @@ var m = module.exports = {
     m.handlers.notify[name] = callback;
   },
 
+  notifyAll : function(name) {
+    for (var key in m.clients) {
+      m.clients[key].send(JSON.stringify({
+        id: 0,
+        type: "server-notify",
+        name: name,
+        data : null,
+        error: null,
+        callback: false
+      }));
+    }
+
+  },
+
   remove : function(method, name) {
     if( typeof m.handlers[method][name] !== 'undefined' )
       delete m.handlers[method][name];
@@ -85,7 +108,8 @@ var m = module.exports = {
         type: msg.type,
         name: msg.name,
         data : null,
-        error: message
+        error: message,
+        callback: false
     }));
   }
 };
