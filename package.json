@@ -1,6 +1,6 @@
 {
   "name": "socket-event",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Easy websockets usage.",
   "main": "index.js",
   "scripts": {
