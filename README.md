@@ -1,7 +1,10 @@
 # socket-event
-This library is the cover around the "ws" module. Providing some comfort in the common use.
-It is client server communication mean using WebSocket protocol.
-Advantages of this type of communication are obvious, but still, before this library, it was a little messy using websockets.
+WebSocket client-server communication library.
+
+# Websockets???
+[Wiki](https://en.wikipedia.org/wiki/WebSocket)
+[WebSockets example](http://agar.io/) Play couple minutes. Imagine how you can create that using http/ajax/whatever... Very good example of websokets power.
+
 
 # About
 WebSoket technology is awesome. But it comes a little hard to start using it. Also you have some problems building big apps with websockets.
