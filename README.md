@@ -2,7 +2,7 @@
 WebSocket client-server communication library.
 
 # Websockets???
-[Wiki](https://en.wikipedia.org/wiki/WebSocket)
+[Wiki](https://en.wikipedia.org/wiki/WebSocket).
 [WebSockets example](http://agar.io/) Play couple minutes. Imagine how you can create that using http/ajax/whatever... Very good example of websokets power.
 
 
@@ -106,10 +106,11 @@ Init socket server:
 ``` javascript
 const s = require('socket-event')
 
-s.init(port, function() {
+s.init(port, function(ws) {
   // Port is optional. Default is 8081.
   // Any additional logic can be placed here
   // Actually this is on 'connection' event handler, that will be fired on connection with each socket
+  // ws - socket object, you may atack ony logic to it. But remember, socket refreshes on page refresh, browser close etc...
 })
 ```
 
@@ -153,6 +154,13 @@ s.remove('notify', 'greet');
 The server to client communication is done through the "notifyAll" method. This code notifies all connected clients about event.
 ``` javascript
 s.notifyAll('map-refresh')
+```
+
+Happens, that you need to get the original socket object. You may access it with method "getSocket".
+``` javascript
+let socket = s.getSocket()
+
+// Maybe atach some user object, session or any other logic
 ```
 
 ### Note

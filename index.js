@@ -37,7 +37,8 @@ var m = module.exports = {
         let msg = JSON.parse(data);
 
         // Pass message to handle function
-        if( typeof m.handlers[msg.type][msg.name] !== "undefined" ) {
+        if( typeof m.handlers[msg.type] !== "undefined" &&
+          typeof m.handlers[msg.type][msg.name] !== "undefined" ) {
           m.handle(msg.type, msg.name, msg.data, function(error, outerData) {
             ws.send(JSON.stringify({
               id : msg.id,
@@ -57,6 +58,10 @@ var m = module.exports = {
       ws.on('close', function() {
         delete m.clients[id];
       });
+
+      m.getSocket = function() {
+        return ws;
+      }
 
     });
   },
