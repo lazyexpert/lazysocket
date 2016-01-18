@@ -19,5 +19,5 @@
   "dependencies": {
     "ws": "^1.0.1"
   },
-  "keywords" : [socket, websockets, events, async, client-server]
+  "keywords" : ["socket", "websockets", "events", "async", "client-server"]
 }
