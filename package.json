@@ -18,5 +18,6 @@
   "homepage": "https://github.com/lazyexpert/socket-event#readme",
   "dependencies": {
     "ws": "^1.0.1"
-  }
+  },
+  "keywords" : [socket, websockets, events, async, client-server]
 }
