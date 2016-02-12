@@ -1,7 +1,7 @@
 "use strict";
 
 /* Back-end part */
-const ws = require('ws');
+var ws = require('ws');
 
 /*
   Message structure (JSON.stringified):
@@ -23,7 +23,7 @@ var m = module.exports = {
   },
   clients : {},
   init : function(port, callback) {
-    let p = port || 8081;
+    var p = port || 8081;
 
     m.server = new ws.Server({port: p});
 
@@ -106,7 +106,7 @@ var m = module.exports = {
   },
 
   throwErr : function(ws, data, message) {
-    let msg = JSON.parse(data);
+    var msg = JSON.parse(data);
 
     ws.send(JSON.stringify({
         id: msg.id,
