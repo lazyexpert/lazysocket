@@ -172,6 +172,3 @@ let socket = s.getSocket()
 
 // Maybe atach some user object, session or any other logic
 ```
-
-### Note
-Dont forget to delete the demo folder in production.
