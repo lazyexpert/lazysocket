@@ -1,9 +1,10 @@
 # socket-event
 WebSocket client-server communication library.
 
-# Websockets???
-[Wiki](https://en.wikipedia.org/wiki/WebSocket).
-[WebSockets example](http://agar.io/) Play couple minutes. Imagine how you can create that using http/ajax/whatever... Very good example of websokets power.
+# Why use websockets
+[WebSockets example] (http://agar.io/) Play couple minutes. Hint: each circle is a real time player.
+
+Imagine how you can create that using http/ajax/whatever... Very good example of websockets power.
 
 
 # About
@@ -63,7 +64,7 @@ socket.notify('user-afk', data)
 ```
 
 Server can send notifications too. To make it easier, the server sends only the name of the event.
-Example:
+How you handle it on front:
 ```javascript
 socket.on('map-refresh', function() {
   // Server notifies about map refresh
@@ -72,6 +73,15 @@ socket.on('map-refresh', function() {
     // Print new map
     console.log(data);
   })
+})
+```
+
+Also, using method 'on', you can set handler to the 'open' event of the socket. Its reserved word.
+'Open' event fires when the socket connection between server and client is established and ready to function normally.
+Example:
+``` javascript
+socket.on('open', function() {
+  console.log("socket has just connected")
 })
 ```
 

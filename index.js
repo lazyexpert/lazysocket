@@ -97,9 +97,8 @@ var m = module.exports = {
         callback: false
       }));
     }
-
   },
-
+  
   remove : function(method, name) {
     if( typeof m.handlers[method][name] !== 'undefined' )
       delete m.handlers[method][name];
