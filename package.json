@@ -1,6 +1,6 @@
 {
   "name": "socket-event",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Easy websockets usage.",
   "main": "index.js",
   "scripts": {
@@ -19,5 +19,11 @@
   "dependencies": {
     "ws": "^1.0.1"
   },
-  "keywords" : ["socket", "websockets", "events", "async", "client-server"]
+  "keywords": [
+    "socket",
+    "websockets",
+    "events",
+    "async",
+    "client-server"
+  ]
 }
