@@ -34,7 +34,7 @@ var m = module.exports = {
       m.clients[id] = ws;
 
       ws.on('message', function(data) {
-        let msg = JSON.parse(data);
+        var msg = JSON.parse(data);
 
         // Pass message to handle function
         if( typeof m.handlers[msg.type] !== "undefined" &&
@@ -98,7 +98,7 @@ var m = module.exports = {
       }));
     }
   },
-  
+
   remove : function(method, name) {
     if( typeof m.handlers[method][name] !== 'undefined' )
       delete m.handlers[method][name];
