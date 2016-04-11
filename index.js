@@ -24,10 +24,15 @@ var m = module.exports = {
   clients : {},
   init : function(options, callback) {
 
-    m.server = new ws.Server({
-      port : options.port || 8081,
-      server:  options.server
-    })   
+    var opt = {}
+
+    if( typeof options.port !== "undefined" )
+      opt.port = options.port
+    else if(typeof options.server !== "undefined" )
+      opt.server = options.server
+    else opt.port = 8081
+
+    m.server = new ws.Server(opt)
 
     m.server.on('connection', function(ws) {
       callback(ws);
