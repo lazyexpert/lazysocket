@@ -1,12 +1,6 @@
 # socket-event
 WebSocket client-server communication library.
 
-# Why use websockets
-[WebSockets example] (http://agar.io/) Play couple minutes. Hint: each circle is a real time player.
-
-Imagine how you can create that using http/ajax/whatever... Very good example of websockets power.
-
-
 # About
 WebSoket technology is awesome. But it comes a little hard to start using it. Also you have some problems building big apps with websockets.
 
@@ -112,15 +106,25 @@ Include this module by:
 npm install --save socket-event
 ```
 
-Init socket server:
+Init socket server. Three possible ways to do that: pass port, pass server, dont pass any:
 ``` javascript
 const s = require('socket-event')
 
-s.init(port, function(ws) {
+
+// Example: set connection port to 8000
+var options = { port : 8000 }
+
+// Other example: set connection to the created before http server
+var options = { server : server}
+
+// This will set to default port 8081
+var options = null
+
+s.init(options, function(ws) {
   // Port is optional. Default is 8081.
   // Any additional logic can be placed here
   // Actually this is on 'connection' event handler, that will be fired on connection with each socket
-  // ws - socket object, you may atack ony logic to it. But remember, socket refreshes on page refresh, browser close etc...
+  // ws - socket object, you may atach any logic to it. But remember, socket refreshes on page refresh, browser close etc...
 })
 ```
 
